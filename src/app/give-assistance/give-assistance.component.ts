@@ -23,7 +23,7 @@ export class GiveAssistanceComponent implements OnInit {
     // options;
     constructor(private fb: FormBuilder, private ts: TestService, private resolver: ComponentFactoryResolver) {
         this.createForm();
-        
+
     }
     ngOnInit() {
         this.defaultValues();
@@ -35,7 +35,7 @@ export class GiveAssistanceComponent implements OnInit {
     createForm() {
         this.complexForm = this.fb.group({
             from: [null, [Validators.required, Validators.minLength(3)]],
-            to: [null, [Validators.required, Validators.minLength(3)]], 
+            to: [null, [Validators.required, Validators.minLength(3)]],
             name: 'asda',
             email: ['', [Validators.required, Validators.email]],
             tel: "",
@@ -49,10 +49,10 @@ export class GiveAssistanceComponent implements OnInit {
             .subscribe(val => {
                 this.ts.postService({ 'city': val }).subscribe(data => {
                     this.options = data;
-                   
+
                 },
                     err => console.error(err),
-                    () => console.log('Flights selected') 
+                    () => console.log('Flights selected')
                 );
             });
 
@@ -60,31 +60,37 @@ export class GiveAssistanceComponent implements OnInit {
             .debounceTime(400)
             .subscribe(val => {
 
-                if (val.length > 2) { 
+                if (val.length > 2) {
 
                     this.ts.postService({ 'city': val }).subscribe(data => {
                         this.options = data;
                         console.log(this.options);
-                   
-                    //this.options= this.filterStates(data)
-                },
-                    err => console.error(err),
-                    () => console.log('Flights selected')
-                );
+
+                        //this.options= this.filterStates(data)
+                    },
+                        err => console.error(err),
+                        () => console.log('Flights selected')
+                    );
                 }
             });
 
-      
-    }
-    
 
+    }
+
+    get formData() {
+        return <FormArray>this.complexForm.controls['flights'];
+    }
     createItem(): FormGroup {
         return this.fb.group({
             flightNumber: ['', [Validators.required]]
         });
     }
     addItem(): void {
-        this.flights = this.complexForm.get('flights') as FormArray;
+
+        //this.flights = this.complexForm.get('flights') as FormArray;
+        //this.flights.push(this.createItem());
+
+        this.flights = <FormArray>this.complexForm.controls['flights'];
         this.flights.push(this.createItem());
     }
 
@@ -96,10 +102,10 @@ export class GiveAssistanceComponent implements OnInit {
         this.removeflights.removeAt(msg);
     }
     reset(form: FormGroup) {
-         form.reset();
+        form.reset();
     }
 
-    
+
     defaultValues() {
         this.complexForm.patchValue({ 'name': 'test' });
     }
@@ -107,18 +113,18 @@ export class GiveAssistanceComponent implements OnInit {
         console.log(form.value);
         if (this.complexForm.valid) {
             console.log('form submitted');
-       
-        this.ts.saveAssistance(form.value).subscribe(data => {
-            //this.options= this.filterStates(data)
-            this.complexForm.reset();
-            this.complexForm.markAsPristine();
-            this.complexForm.markAsUntouched();
-        },
-            err => console.error(err),
-            () => console.log('save assistance completed')
-        );
-        //this.createComponent("success");
-        } 
+
+            this.ts.saveAssistance(form.value).subscribe(data => {
+                //this.options= this.filterStates(data)
+                this.complexForm.reset();
+                this.complexForm.markAsPristine();
+                this.complexForm.markAsUntouched();
+            },
+                err => console.error(err),
+                () => console.log('save assistance completed')
+            );
+            //this.createComponent("success");
+        }
         else {
             // validate all form fields
         }
@@ -129,7 +135,7 @@ export class GiveAssistanceComponent implements OnInit {
     createComponent(type) {
         console.log('hello');
 
-        
+
         //const factory: ComponentFactory<any> = this.resolver.resolveComponentFactory(AlertComponent);
         //this.componentRef = this.container.createComponent(factory);
         //this.componentRef.instance.type = type;

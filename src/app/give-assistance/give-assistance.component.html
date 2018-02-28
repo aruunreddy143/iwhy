@@ -31,7 +31,7 @@
 
     <button mat-raised-button color="accent" class="float-right" (click)=addItem()>Add Flight Number</button>
 
-    <div formArrayName="flights"  *ngFor="let item of complexForm.get('flights').controls; let i = index;">
+    <!--<div formArrayName="flights"  *ngFor="let item of complexForm.get('flights').controls; let i = index;">
 
 
       <mat-form-field class="example-full-width" [formGroupName]="i">
@@ -40,10 +40,22 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-    </div>    
+    </div>-->    
+
+    <div formArrayName="flights"  *ngFor="let item of formData.controls; let i = index;">
+
+
+    <mat-form-field class="example-full-width" [formGroupName]="i">
+      <input matInput placeholder="Flight Number" formControlName="flightNumber" type="text" required>
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="delete(i)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+    
 
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Email*" [formControl]="complexForm.controls['email']"  [errorStateMatcher]="matcher">
+      <input matInput placeholder="Email*" [formControl]="complexForm.controls['email']" >
       <mat-error *ngIf="complexForm.controls['email'].hasError('email') && !complexForm.controls['email'].hasError('required')">
         Please enter a valid email address
       </mat-error>
