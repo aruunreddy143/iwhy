@@ -30,7 +30,8 @@
     "core-js": "^2.4.1",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14",
-    "typescript": "~2.4.2"
+    "typescript": "~2.4.2",
+    "@angular/compiler-cli": "*"
   },
   "devDependencies": {
     "@angular/cli": "1.6.3",
